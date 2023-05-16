@@ -51,7 +51,8 @@ namespace WcfService1
         public string price { get; set; }
         [DataMember]
         public string description { get; set; }
-
+        [DataMember]
+        public string picurl { get; set; }
 
 
 
@@ -77,7 +78,8 @@ namespace WcfService1
         public string price { get; set; }
         [DataMember]
         public string description { get; set; }
-
+        [DataMember]
+        public string picurl { get; set; }
 
 
 

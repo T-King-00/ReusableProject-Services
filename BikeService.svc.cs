@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Services.Description;
 using System.Web.UI.WebControls.WebParts;
 
 namespace WcfService1
@@ -35,6 +36,7 @@ namespace WcfService1
                 bike.color = reader.GetString(4);
                 bike.price = reader.GetString(5);
                 bike.description = reader.GetString(6);
+                bike.picurl = reader.GetString(7);
 
 
 
@@ -69,6 +71,7 @@ namespace WcfService1
                 part.color = reader.GetString(4);
                 part.price = reader.GetString(5);
                 part.description = reader.GetString(6);
+                part.picurl = reader.GetString(7);
 
 
 
@@ -105,7 +108,7 @@ namespace WcfService1
                 bike.color = reader.GetString(4);
                 bike.price = reader.GetString(5);
                 bike.description = reader.GetString(6);
-
+                bike.picurl = reader.GetString(7);
                 bikes.Add(bike);
          
             }
@@ -141,6 +144,7 @@ namespace WcfService1
                 part.color = reader.GetString(4);
                 part.price = reader.GetString(5);
                 part.description = reader.GetString(6);
+                part.picurl = reader.GetString(7);
 
                 parts.Add(part);
             }
