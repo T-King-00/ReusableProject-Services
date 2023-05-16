@@ -11,13 +11,11 @@ using System.Web.UI.WebControls.WebParts;
 
 namespace WcfService1
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "BikeService" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select BikeService.svc or BikeService.svc.cs at the Solution Explorer and start debugging.
-    public class BikeService : IBikeService
+     public class BikeService : IBikeService
     {
+        SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
         public Bike GetBike(Guid id)
         {
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
             String cmdText = "select * from bikes where id= '" + id + "'";
 
             conn.Open();
@@ -51,7 +49,7 @@ namespace WcfService1
         }
         public Part GetPart(Guid id)
         {
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+           // SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
             String cmdText = "select * from parts where id= '" + id + "'";
 
             conn.Open();
@@ -85,7 +83,7 @@ namespace WcfService1
         }
         public IEnumerable<Bike>  GetBikes()
         {
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+          //  SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
             string cmdText;
             cmdText = "select * from bikes";
 
@@ -121,7 +119,7 @@ namespace WcfService1
         public IEnumerable<Part> GetParts()
         {
 
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+           // SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
             string cmdText;
             cmdText = "select * from parts";
 
@@ -155,7 +153,7 @@ namespace WcfService1
 
         public IEnumerable<ItemsReview> getReviews(Guid itemid)
         {
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+           
             string cmdText;
             cmdText = "select * from itemReviews where itemid=@a";
             conn.Open();
@@ -191,6 +189,27 @@ namespace WcfService1
 
         public void addReviews(ItemsReview rev)
         {
+            string cmdText;
+            cmdText = "insert into itemReviews  (itemId,userID, dateofReview ,rating,review) " +
+                      "values (@p1,@p2,@p3,@p4,@p5)";
+            conn.Open();
+            DateTime time = DateTime.UtcNow;              // Use current time
+     
+            string format = "yyyy-MM-dd HH:mm:ss";    // modify the format depending upon input required in the column in database 
+
+            SqlParameter par1 = new SqlParameter("@p1", rev.itemId);
+            SqlParameter par2 = new SqlParameter("@p2", rev.userID);
+            SqlParameter par3 = new SqlParameter("@p3", time);
+            SqlParameter par4 = new SqlParameter("@p4", rev.rating);
+            SqlParameter par5 = new SqlParameter("@p5", rev.review);
+
+            SqlCommand command = new SqlCommand(cmdText, conn);
+            command.Parameters.Add(par1);
+            command.Parameters.Add(par2);
+            command.Parameters.Add(par3);
+            command.Parameters.Add(par4);
+            command.Parameters.Add(par5);
+            int res = command.ExecuteNonQuery();
 
         }
 

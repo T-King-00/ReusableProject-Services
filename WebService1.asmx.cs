@@ -22,13 +22,15 @@ namespace WcfService1
 
 
         [WebMethod]
-        public Boolean Login(string userName,string password)
+        public Guid Login(string userName,string password)
         {
 
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+            //SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
             conn.Open();
+
             string cmdText;
             cmdText = "select * from Users where @x=userName and @y=password ;";
+
             SqlParameter parameter1 = new SqlParameter("@x", userName);
             SqlParameter parameter2 = new SqlParameter("@y", password);
             SqlCommand command = new SqlCommand(cmdText, conn);
@@ -37,20 +39,22 @@ namespace WcfService1
             command.Parameters.Add(parameter2);
             SqlDataReader reader = command.ExecuteReader();
 
+            Guid id=Guid.Empty;
             if (reader.Read())
             {
-                return true;
+               id = reader.GetGuid(0);
+                return id;
             }
             conn.Close();
 
 
-            return false;
+            return id;
         }
 
         [WebMethod]
         public Boolean Register(User newUser)
         {
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+           // SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
 
             string cmdText;
             cmdText = "insert into users (firstName ,lastName ,userName ,email," +
@@ -88,12 +92,7 @@ namespace WcfService1
                 
                 
             }
-         
-
-
-
-
-
+            
 
         }
 
@@ -102,7 +101,7 @@ namespace WcfService1
         public Boolean UpdateUserDetails(User userToEdit)
         {
 
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+          //  SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
 
             string cmdText;
             cmdText = "update  users " +
@@ -148,7 +147,7 @@ namespace WcfService1
         [WebMethod]
         public User ViewUserDetails(string userName)
         {
-            SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
+            //SqlConnection conn = new SqlConnection("Data Source=TONYRIAD;Initial Catalog=BikeShopDb;Integrated Security=True");
 
             conn.Open();
             string cmdText;
@@ -180,7 +179,6 @@ namespace WcfService1
             return userObjToView;
         }
 
-
         //used to get user name for viewing user names in reviews section
         [WebMethod]
         public string getUserName(Guid userid)
@@ -206,6 +204,9 @@ namespace WcfService1
             return name;
 
         }
+
+
+
 
     }
 }
