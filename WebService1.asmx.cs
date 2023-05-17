@@ -205,8 +205,14 @@ namespace WcfService1
 
         }
 
+        [WebMethod]
+        public Boolean paywithcredit(String authorized)
+        {
 
+            //verification 
 
+            return true;
+        }
 
     }
 }
